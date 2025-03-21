@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<SchoolContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Server=ZEPHYRUS\\SQLEXPRESS;Database=SchoolDb;Trusted_Connection=True;MultipleActiveResultSets=true")));
 
 var app = builder.Build();
 

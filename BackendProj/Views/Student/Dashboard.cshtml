@@ -1,0 +1,12 @@
+﻿@model BackendProj.Models.Student
+
+<h1>Dashboard Studenta</h1>
+<p>Witaj, @Model.Name @Model.Surname</p>
+
+<h2>Twoje przedmioty:</h2>
+<ul>
+    @foreach (var subject in Model.Subjects)
+    {
+    <li>@subject.Name - Ocena: @subject.Grades.FirstOrDefault(g => g.Student.Id == Model.Id)?.Value ?? "Brak oceny"</li>
+    }
+</ul>
