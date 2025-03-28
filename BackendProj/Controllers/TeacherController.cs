@@ -1,59 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BackendProj.Models;
+﻿using BackendProj.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackendProj.Controllers;
-
-public class TeacherController : Controller
+namespace BackendProj.Controllers
 {
-    private readonly SchoolContext _context;
-
-    public TeacherController(SchoolContext context)
+    public class TeacherController : Controller
     {
-        _context = context;
-    }
+        private readonly SchoolContext _context;
 
-    [HttpGet("/teacher/{id}")]
-    public IActionResult Dashboard(int id)
-    {
-        var teacher = _context.Teachers
-            .Include(t => t.Subjects)
-            .ThenInclude(s => s.Grades)
-            .ThenInclude(g => g.Student)
-            .FirstOrDefault(t => t.Id == id);
-
-        if (teacher == null)
+        public TeacherController(SchoolContext context)
         {
-            return NotFound();
+            _context = context;
         }
 
-        return View(teacher);
-    }
-
-    [HttpPost("/teacher/{teacherId}/student/{studentId}/subject/{subjectId}/grade")]
-    public IActionResult EditGrade(int teacherId, int studentId, int subjectId, [FromForm] int gradeValue)
-    {
-        var grade = _context.Grades
-            .FirstOrDefault(g => g.Student.Id == studentId && g.Subject.Id == subjectId);
-
-        if (grade == null)
+        [HttpGet("/teacher/{id}")]
+        public IActionResult Dashboard(int id)
         {
-            grade = new Grade
+            var teacher = _context.Teachers
+                .Include(t => t.Subjects)
+                .ThenInclude(s => s.Grades)
+                .ThenInclude(g => g.Student)
+                .FirstOrDefault(t => t.Id == id);
+
+            if (teacher == null)
             {
-                Student = _context.Students.Find(studentId),
-                Subject = _context.Subjects.Find(subjectId),
-                Value = gradeValue
-            };
-            _context.Grades.Add(grade);
-        }
-        else
-        {
-            grade.Value = gradeValue;
-            _context.Grades.Update(grade);
-        }
+                return NotFound();
+            }
 
-        _context.SaveChanges();
-
-        return Ok();
+            return View(teacher);
+        }
     }
 }

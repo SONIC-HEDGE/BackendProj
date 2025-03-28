@@ -1,31 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BackendProj.Models;
+﻿using BackendProj.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackendProj.Controllers;
-
-public class StudentController : Controller
+namespace BackendProj.Controllers
 {
-    private readonly SchoolContext _context;
-
-    public StudentController(SchoolContext context)
+    public class StudentController : Controller
     {
-        _context = context;
-    }
+        private readonly SchoolContext _context;
 
-    [HttpGet("/student/{id}")]
-    public IActionResult Dashboard(int id)
-    {
-        var student = _context.Students
-            .Include(s => s.Subjects)
-            .ThenInclude(s => s.Grades)
-            .FirstOrDefault(s => s.Id == id);
-
-        if (student == null)
+        public StudentController(SchoolContext context)
         {
-            return NotFound();
+            _context = context;
         }
 
-        return View(student);
+        [HttpGet("/student/{id}")]
+        public IActionResult Dashboard(int id)
+        {
+            var student = _context.Students
+                .Include(s => s.Subjects)
+                .ThenInclude(s => s.Grades)
+                .FirstOrDefault(s => s.Id == id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
+        }
     }
 }

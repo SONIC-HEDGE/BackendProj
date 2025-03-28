@@ -1,9 +1,12 @@
-﻿namespace BackendProj.Models;
+﻿using System.Collections.Generic;
 
-public class Student
+namespace BackendProj.Models
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public List<Subject> Subjects { get; set; } // Dodajemy właściwość Subjects
+    public class Student
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public ICollection<Subject> Subjects { get; set; }
+    }
 }

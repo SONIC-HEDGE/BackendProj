@@ -7,6 +7,6 @@
 <ul>
     @foreach (var subject in Model.Subjects)
     {
-    <li>@subject.Name - Ocena: @subject.Grades.FirstOrDefault(g => g.Student.Id == Model.Id)?.Value ?? "Brak oceny"</li>
+        <li>@subject.Name - Ocena: @subject.Grades.FirstOrDefault(g => g.Student.Id == Model.Id)?.Value ?? "Brak oceny"</li>
     }
 </ul>
