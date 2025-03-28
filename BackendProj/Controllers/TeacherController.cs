@@ -1,6 +1,8 @@
-﻿using BackendProj.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BackendProj.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BackendProj.Controllers
 {
@@ -13,19 +15,13 @@ namespace BackendProj.Controllers
             _context = context;
         }
 
-        [HttpGet("/teacher/{id}")]
-        public IActionResult Dashboard(int id)
+        public async Task<IActionResult> Dashboard()
         {
-            var teacher = _context.Teachers
+            var teacher = await _context.Teachers
                 .Include(t => t.Subjects)
                 .ThenInclude(s => s.Grades)
                 .ThenInclude(g => g.Student)
-                .FirstOrDefault(t => t.Id == id);
-
-            if (teacher == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync();
 
             return View(teacher);
         }

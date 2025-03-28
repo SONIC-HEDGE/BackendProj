@@ -1,16 +1,12 @@
 ﻿@model BackendProj.Models.Teacher
 
-<h1>Dashboard Nauczyciela</h1>
-<p>Witaj, @Model.Name @Model.Surname</p>
-
-<h2>Twoi uczniowie:</h2>
-@foreach (var subject in Model.Subjects)
-{
-    <h3>@subject.Name</h3>
-    <ul>
-        @foreach (var grade in subject.Grades)
+<h2>Witaj @Model.Name @Model.Surname, Twoi uczniowie:</h2>
+<ul>
+    @foreach (var subject in Model.Subjects)
+    {
+        foreach (var grade in subject.Grades)
         {
-            <li>@grade.Student.Name @grade.Student.Surname - Ocena: @grade.Value</li>
+            <li>@grade.Student.Name @grade.Student.Surname</li>
         }
-    </ul>
-}
+    }
+</ul>
